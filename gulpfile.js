@@ -19,10 +19,13 @@ var config = function(key, value){
 };
 config('skip_sourcemaps', yargs.argv.production?true:yargs.argv.skip_sourcemaps);
 config('do_minimize', yargs.argv.production?true:yargs.argv.do_minimize);
-config('browserify_transforms', ['brfs']);
+config('browserify_transforms', ['brfs', ['riotify', {}]]);
 config('browserify_node_modules', ['lodash', 'riot', 'riotcontrol', 'riot-bootstrap']);
 
+var cleaned = false;
 gulp.task('clean', function(cb){
+    if (cleaned){return cb(null);}
+    cleaned = true;
     del('./client/build', cb);
 });
 
